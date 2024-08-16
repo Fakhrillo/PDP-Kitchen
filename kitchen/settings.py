@@ -32,7 +32,18 @@ INSTALLED_APPS = [
     "phonenumber_field",
     'rest_framework',
     'image_uploader_widget',
+    'drf_spectacular',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'ENUM_NAME_OVERRIDES': {
+        'MealTimeEnum': 'core.models.MealTimeEnum',
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

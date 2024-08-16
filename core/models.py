@@ -1,5 +1,15 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
+from enum import Enum
+
+class MealTimeEnum(Enum):
+    BREAKFAST = 'Breakfast'
+    LUNCH = 'Lunch'
+    DINNER = 'Dinner'
+
+    @classmethod
+    def choices(cls):
+        return [(tag.value, tag.name) for tag in cls]
 
 # Create your models here.
 class Student(models.Model):
@@ -33,14 +43,8 @@ class Menu(models.Model):
     ('Sunday', 'Sunday'),
     ]
 
-    MEAL_TIME_CHOICES = [
-        ('Breakfast', 'Breakfast'),
-        ('Lunch', 'Lunch'),
-        ('Dinner', 'Dinner'),
-    ]
-
     week_days = models.CharField(max_length=50, choices=WEEK_DAYS)
-    meal_time = models.CharField(max_length=50, choices=MEAL_TIME_CHOICES)
+    meal_time = models.CharField(max_length=50, choices=MealTimeEnum.choices())
     meals = models.ManyToManyField(Meal)  
     created_at = models.DateTimeField(auto_now_add=True)  
 
@@ -48,15 +52,9 @@ class Menu(models.Model):
         return f"{self.meal_time} on {self.week_days}"
 
 class MealEntry(models.Model):
-    MEAL_TYPE_CHOICES = [
-        ('Breakfast', 'Breakfast'),
-        ('Lunch', 'Lunch'),
-        ('Dinner', 'Dinner')
-    ]
-
     student_id = models.ForeignKey(Student, to_field='student_id', on_delete=models.CASCADE)
     date = models.DateField()
-    meal_type = models.CharField(max_length=50, choices=MEAL_TYPE_CHOICES)
+    meal_type = models.CharField(max_length=50, choices=MealTimeEnum.choices())
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
