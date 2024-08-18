@@ -114,8 +114,7 @@ class UserCheck(APIView):
             distances = np.linalg.norm(known_encodings - test_encoding, axis=1)
             min_distance_index = np.argmin(distances)
             min_distance = distances[min_distance_index]
-
-            threshold = 0.6
+            threshold = 0.55
             status = None
             if min_distance < threshold:
                 name = names[min_distance_index]
