@@ -88,7 +88,7 @@ class UserCheck(APIView):
     def post(self, request, *args, **kwargs):
         try:
             # Assume the image is sent as form data named 'photo'
-            user_id = int(request.data['user_id'])
+            student_id = int(request.data['student_id'])
             uploaded_file = request.FILES['photo']
             pil_image = Image.open(uploaded_file)
             test_image = np.array(pil_image)
@@ -96,7 +96,7 @@ class UserCheck(APIView):
             test_encoding = face_recognition.face_encodings(test_image)[0]
 
             # Get the known user information
-            user_info = Student.objects.get(user_id=user_id)
+            user_info = Student.objects.get(student_id=student_id)
             known_image = np.array(face_recognition.load_image_file(user_info.photo.path))
             known_encodings = face_recognition.face_encodings(known_image)[0]
 
@@ -105,7 +105,7 @@ class UserCheck(APIView):
 
             # Set threshold to determine match
             if distance < 0.30:
-                name = user_info.fullname
+                name = user_info.first_name
             else:
                 name = 'unknown'
 
