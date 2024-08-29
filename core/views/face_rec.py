@@ -104,7 +104,7 @@ class UserCheck(APIView):
             distance = np.linalg.norm(known_encodings - test_encoding)
 
             # Set threshold to determine match
-            if distance < 0.30:
+            if distance < 0.40:
                 name = user_info.first_name
             else:
                 name = 'unknown'
